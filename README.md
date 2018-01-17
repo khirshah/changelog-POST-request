@@ -23,5 +23,7 @@ python3 slackMsgBuilder.py -ch "#<chanel>" -usr "<usrname>" -em "<emoticon>"
 -ch - chanel on slack
 -usr - username to display
 -em - emoticon to display as avatar
+-lnk - link to changelog file
+-ver - version info to display (optional, default: "latest")
 
 ```
