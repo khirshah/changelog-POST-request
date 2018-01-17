@@ -3,35 +3,58 @@ import urllib.request, urllib.parse
 import argparse
 import markdown
 import json
+import os.path
 from HTMLParsExt import MyHTMLParser
 
-#-------------------------- init --------------------------------
+#------------------------ functions -----------------------------
+
 def str_part(text,d1,d2):
-  string=text.partition(d1)[2]
-  return string.partition(d2)[0]
+    string=text.partition(d1)[2]
+    return string.partition(d2)[0]
 
-
-
-argparser = argparse.ArgumentParser()
-argparser.add_argument('-ch', '--channel',
+def add_args():
+  argparser.add_argument('-ch', '--channel',
                         help='channel to POST to',
                         required='True')
-argparser.add_argument('-usr', '--username',
+  argparser.add_argument('-usr', '--username',
                         help='name of the user',
                         required='True')
-argparser.add_argument('-em', '--emoji',
+  argparser.add_argument('-em', '--emoji',
                         help='icon to show',
                         required='True')
+  argparser.add_argument('-lnk', '--link',
+                        help='file source',
+                        required='True')
+  argparser.add_argument('-ver', '--version',
+                        help='version to display',
+                        required='False',
+                        default='latest')
+
+#-------------------------- init --------------------------------
+#get variables from sh command
+argparser = argparse.ArgumentParser()
+add_args()
 args = argparser.parse_args()
 
+ChLogTxt=""
 
-with open('changelog.txt') as f:
+#open file
+if  os.path.exists('changelog.txt')==True:
+  with open('changelog.txt') as f:
     ChLogTxt = f.read()
+else:
+  c=urllib.request.urlopen(args.link)
+  ChLogTxt=str(c.read())[2:]
+
 
 #------------------------- commands ------------------------------------
 
 #extract the text part we need and convert it from markup to html
-html=markdown.markdown("<a name"+str_part(ChLogTxt,"<a name","<a name"))
+if args.version=='latest':
+  html=markdown.markdown("<a name"+str_part(ChLogTxt,"<a name","<a name"))
+else:
+  html=markdown.markdown('<a name="'+args.version+'">'+str_part(ChLogTxt,'<a name="'+args.version+'">','<a name'))
+
 
 #call the parser
 parser = MyHTMLParser()
@@ -44,6 +67,7 @@ msg_params={
           "username":args.username,
           "icon_emoji":args.emoji,
             }
+
 
 #create a JSON file from our dictionary
 JSONobj=json.dumps(msg_params)
