@@ -15,19 +15,24 @@ def str_part(text,d1,d2):
 def add_args():
   argparser.add_argument('-ch', '--channel',
                         help='channel to POST to',
-                        required='True')
+                        required=True)
   argparser.add_argument('-usr', '--username',
                         help='name of the user',
-                        required='True')
+                        required=True)
   argparser.add_argument('-em', '--emoji',
                         help='icon to show',
-                        required='True')
+                        required=True)
   argparser.add_argument('-lnk', '--link',
-                        help='file source',
-                        required='True')
+                        help='file source URL',
+                        required=False,
+                        default='')
+  argparser.add_argument('-f', '--file',
+                        help='filename+path',
+                        required=False,
+                        default='')
   argparser.add_argument('-ver', '--version',
                         help='version to display',
-                        required='False',
+                        required=False,
                         default='latest')
 
 #-------------------------- init --------------------------------
@@ -39,13 +44,16 @@ args = argparser.parse_args()
 ChLogTxt=""
 
 #open file
-if  os.path.exists('changelog.txt')==True:
-  with open('changelog.txt') as f:
+if  args.file!='' and args.link=='':
+  with open(args.file) as f:
     ChLogTxt = f.read()
-else:
+elif args.link!='' and args.file=='':
   c=urllib.request.urlopen(args.link)
-  ChLogTxt=str(c.read())[2:]
-
+  content=c.read()
+  ChLogTxt=content.decode('utf-8')
+else:
+  print("Error: supply either link or filename but not both")
+  exit(0)
 
 #------------------------- commands ------------------------------------
 
@@ -54,7 +62,6 @@ if args.version=='latest':
   html=markdown.markdown("<a name"+str_part(ChLogTxt,"<a name","<a name"))
 else:
   html=markdown.markdown('<a name="'+args.version+'">'+str_part(ChLogTxt,'<a name="'+args.version+'">','<a name'))
-
 
 #call the parser
 parser = MyHTMLParser()
