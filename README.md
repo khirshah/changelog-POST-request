@@ -20,12 +20,12 @@ python3 slackMsgBuilder.py -ch "#<chanel>" -usr "<usrname>" -em "<emoticon>" -sl
 
 ### Arguments
 ```
--ch - chanel on slack
+-ch  - chanel on slack
 -usr - username to display
--em - emoticon to display as avatar
+-em  - emoticon to display as avatar
 -lnk - link to changelog file (optional, but either this or -f is required)
--f - file name+location (optional, but either this or -lnk is required)
+-f   - file name+location (optional, but either this or -lnk is required)
 -ver - version info to display (optional, default: "latest")
--sl - slack webhook url: https://hooks.slack.com/services/xxxxxxxxx/yyyyyyyyy/zzzzzzzzzzzzzzzzzzzzzzzz
+-sl  - slack webhook url: https://hooks.slack.com/services/xxxxxxxxx/yyyyyyyyy/zzzzzzzzzzzzzzzzzzzzzzzz
 
 ```
