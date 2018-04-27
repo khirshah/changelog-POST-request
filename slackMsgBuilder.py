@@ -3,7 +3,7 @@ import urllib.request, urllib.parse
 import argparse
 import markdown
 import json
-import os.path
+import os.path 
 from HTMLParsExt import MyHTMLParser
 
 #------------------------ functions -----------------------------
@@ -37,6 +37,10 @@ def add_args():
   argparser.add_argument('-sl', '--slack',
                         help='Slack webhook e.g.: https://hooks.slack.com/services/xxxxxxxxx/yyyyyyyyy/zzzzzzzzzzzzzzzzzzzzzzzz',
                         required=True)
+  argparser.add_argument('-p', '--project',
+                        help='name of the project to appear in Slack msg title',
+                        required=False,
+                        default='')
 
 
 #-------------------------- init --------------------------------
@@ -79,6 +83,7 @@ msg_params={
           "icon_emoji":args.emoji,
             }
 
+msg_params['attachments'][0]['title'] = args.project + ": v" + msg_params['attachments'][0]['title']
 
 #create a JSON file from our dictionary
 JSONobj=json.dumps(msg_params)

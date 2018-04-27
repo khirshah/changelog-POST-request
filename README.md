@@ -27,5 +27,6 @@ python3 slackMsgBuilder.py -ch "#<chanel>" -usr "<usrname>" -em "<emoticon>" -sl
 -f   - file name+location (optional, but either this or -lnk is required)
 -ver - version info to display (optional, default: "latest")
 -sl  - slack webhook url: https://hooks.slack.com/services/xxxxxxxxx/yyyyyyyyy/zzzzzzzzzzzzzzzzzzzzzzzz
+-p   - name of the project to appear in Slack msg title
 
 ```
