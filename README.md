@@ -2,8 +2,8 @@
 Is a small script that creates a slack message from a markup document
 
 ## Pre-requisite
-Python 3.x
-markdown (pip3 install markdown)
+Python 3.x  
+markdown (`pip3 install markdown`)
 
 ## Install 
 ```
