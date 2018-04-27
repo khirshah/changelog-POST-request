@@ -14,7 +14,7 @@ git clone git@github.com:khirshah/changelog-POST-request.git
 ## Run
 ```
 
-python3 slackMsgBuilder.py -ch "#<chanel>" -usr "<usrname>" -em "<emoticon>"
+python3 slackMsgBuilder.py -ch "#<chanel>" -usr "<usrname>" -em "<emoticon>" -sl "<slack_webhook_url>"
 
 ```
 
