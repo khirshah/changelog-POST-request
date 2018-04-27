@@ -34,6 +34,10 @@ def add_args():
                         help='version to display',
                         required=False,
                         default='latest')
+  argparser.add_argument('-sl', '--slack',
+                        help='Slack webhook e.g.: https://hooks.slack.com/services/xxxxxxxxx/yyyyyyyyy/zzzzzzzzzzzzzzzzzzzzzzzz',
+                        required=True)
+
 
 #-------------------------- init --------------------------------
 #get variables from sh command
@@ -79,7 +83,7 @@ msg_params={
 #create a JSON file from our dictionary
 JSONobj=json.dumps(msg_params)
 #performing the POST request
-req = urllib.request.Request('https://hooks.slack.com/services/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')
+req = urllib.request.Request(args.slack)
 req.add_header('Content-Type', 'application/json')
 d=JSONobj.encode('ascii')
 r = urllib.request.urlopen(req, d)
