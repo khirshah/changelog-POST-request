@@ -35,18 +35,27 @@ class MyHTMLParser(HTMLParser):
 
     def handle_data(self, data):
         #extract text, remove empty and incomplete strings and (-s from end of strings
+        print(data)
         if "a" not in self.current_tag_list and data!=') (' and data.startswith(')')==False and data!=None and len(data)>1 and self.h3TagCount != -1:
             if "h3" not in self.current_tag_list and "h1" not in self.current_tag_list:
-                if data.startswith(" "):
-                    self.text_list[self.h3TagCount].append(data[1:-2])
-                    self.attach[0]["fields"][self.h3TagCount]["value"]=self.attach[0]["fields"][self.h3TagCount]["value"]+"\n- "+data[1:-2]
-                elif data.startswith(", "):
-                    self.text_list[self.h3TagCount].append(data[2:-2])
-                    self.attach[0]["fields"][self.h3TagCount]["value"]=self.attach[0]["fields"][self.h3TagCount]["value"]+"\n- "+data[2:-2]
-                else:
-                    self.text_list[self.h3TagCount].append(data[0:-2])
-                    self.attach[0]["fields"][self.h3TagCount]["value"]=self.attach[0]["fields"][self.h3TagCount]["value"]+"\n- "+data[0:-2]
-        #if tag happens to be H3, save text as field name
+                
+                data = data.strip(", \t\n\r()")
+                self.text_list[self.h3TagCount].append(data)
+                self.attach[0]["fields"][self.h3TagCount]["value"]=self.attach[0]["fields"][self.h3TagCount]["value"]+"\n- "+data
+
+        #         if data.startswith(" "):
+        #             self.text_list[self.h3TagCount].append(data[1:-2])
+        #             self.attach[0]["fields"][self.h3TagCount]["value"]=self.attach[0]["fields"][self.h3TagCount]["value"]+"\n- "+data[1:-2]
+        #         elif data.startswith(", "):
+        #             self.text_list[self.h3TagCount].append(data[2:-2])
+        #             self.attach[0]["fields"][self.h3TagCount]["value"]=self.attach[0]["fields"][self.h3TagCount]["value"]+"\n- "+data[2:-2]
+        #         elif data.endswith(":"):
+        #             self.text_list[self.h3TagCount].append(data[0:-1])
+        #             self.attach[0]["fields"][self.h3TagCount]["value"]=self.attach[0]["fields"][self.h3TagCount]["value"]+"\n- "+data[0:-1]
+        #         else:
+        #             self.text_list[self.h3TagCount].append(data[0:-2])
+        #             self.attach[0]["fields"][self.h3TagCount]["value"]=self.attach[0]["fields"][self.h3TagCount]["value"]+"\n- "+data[0:-2]
+        # #if tag happens to be H3, save text as field name
         if "h3" in self.current_tag_list:
             #first create list element Field and the corresponding Text block
             self.text_list.append([])
